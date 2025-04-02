@@ -1,0 +1,9 @@
+run = "docker build -t yuchin-shop . && docker run -p 3000:3000 yuchin-shop"
+language = "docker"
+
+[nix]
+channel = "stable-22_11"
+
+[deployment]
+run = ["sh", "-c", "docker run -p 3000:3000 yuchin-shop"]
+deploymentTarget = "cloudrun" 

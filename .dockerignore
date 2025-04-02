@@ -1,0 +1,31 @@
+# 版本控制
+.git
+.gitignore
+
+# 依賴
+node_modules
+npm-debug.log
+
+# 環境文件
+.env
+.env.*
+
+# 系統文件
+.DS_Store
+Thumbs.db
+
+# IDE配置
+.idea
+.vscode
+*.swp
+*.swo
+
+# 日誌文件
+logs
+*.log
+
+# 其他
+README.md
+Dockerfile
+.dockerignore
+.replit 

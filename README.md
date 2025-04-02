@@ -19,8 +19,11 @@
 - Bootstrap 5
 - MySQL 數據庫
 - 綠界金流 API
+- Docker
 
 ## 安裝說明
+
+### 本地開發
 
 1. 克隆項目
 ```bash
@@ -44,6 +47,32 @@ cp .env.example .env
 npm start
 ```
 
+### Docker 部署
+
+1. 建構映像檔
+```bash
+docker build -t yuchin-shop .
+```
+
+2. 運行容器
+```bash
+docker run -p 3000:3000 yuchin-shop
+```
+
+### Replit 部署
+
+1. 在 Replit 中導入專案
+   - 點擊 "Create Repl"
+   - 選擇 "Import from GitHub"
+   - 輸入倉庫地址：https://github.com/TSFMAKKO/order.git
+
+2. 配置環境變量
+   - 在 Replit 的 "Secrets" 標籤中添加必要的環境變量
+
+3. 運行專案
+   - Replit 會自動檢測 Docker 配置並運行專案
+   - 點擊 "Run" 按鈕啟動應用
+
 ## 目錄結構
 
 ```
@@ -55,6 +84,8 @@ npm start
 │   ├── controllers/  # 控制器
 │   ├── routes/       # 路由
 │   └── views/        # 視圖模板
+├── Dockerfile        # Docker 配置文件
+├── .replit           # Replit 配置文件
 └── README.md         # 項目說明
 ```
 
