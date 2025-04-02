@@ -56,9 +56,9 @@ const ecpayController = {
         TotalAmount: totalAmount,
         TradeDesc: encodeURIComponent(tradeDesc),
         ItemName: itemNames,
-        ReturnURL: `https://6bc5-122-254-30-102.ngrok-free.app/ecpay/callback`,
-        OrderResultURL: `https://6bc5-122-254-30-102.ngrok-free.app/ecpay/result`,
-        ClientBackURL: `https://6bc5-122-254-30-102.ngrok-free.app`,
+        ReturnURL: process.env.RETURN_URL,
+        OrderResultURL: process.env.ORDER_RESULT_URL,
+        ClientBackURL: process.env.CLIENT_BACK_URL,
         ChoosePayment: 'ALL',
         EncryptType: 1,  // 使用SHA256加密
       };
