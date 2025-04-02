@@ -1,0 +1,307 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+  <h5 class="mb-3">購物車</h5>
+  
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+  
+  <% if (!cart.items.length) { %>
+    <div class="text-center py-5">
+      <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+      <p class="text-muted">您的購物車是空的</p>
+      <a href="/products" class="btn btn-primary">去選購商品</a>
+    </div>
+  <% } else { %>
+    <div class="cart-items bg-white rounded-3 shadow-sm">
+      <!-- 桌面版表格 -->
+      <div class="d-none d-md-block">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-4" style="width: 50px;">
+                  <div class="form-check">
+                    <input class="form-check-input item-checkbox" type="checkbox" name="selectedItems" 
+                           value="all" onchange="updateTotal()">
+                  </div>
+                </th>
+                <th>商品</th>
+                <th style="width: 120px;">單價</th>
+                <th style="width: 150px;">數量</th>
+                <th style="width: 120px;">小計</th>
+                <th style="width: 80px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% cart.items.forEach(item => { %>
+                <tr data-product-id="<%= item.productId %>">
+                  <td class="align-middle ps-4">
+                    <div class="form-check">
+                      <input class="form-check-input item-checkbox" type="checkbox" name="selectedItems" 
+                             value="<%= item.productId %>" onchange="updateTotal()">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center ps-4">
+                      <div class="cart-item-image-container me-3" style="width: 80px; height: 80px;">
+                        <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-item-image rounded" 
+                             style="width: 100%; height: 100%; object-fit: cover;"
+                             onerror="this.src='/img/no-image.jpg'">
+                      </div>
+                      <div>
+                        <a href="/products/<%= item.productId %>" class="text-dark text-decoration-none"><%= item.name %></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="align-middle text-danger">$<%= item.price.toLocaleString() %></td>
+                  <td class="align-middle">
+                    <div class="d-flex align-items-center quantity-control" style="width: 120px;">
+                      <form action="/cart/update" method="POST" class="d-inline">
+                        <input type="hidden" name="productId" value="<%= item.productId %>">
+                        <input type="hidden" name="action" value="decrease">
+                        <button type="submit" class="btn btn-outline-secondary px-2 py-1" style="min-width: 32px;">-</button>
+                      </form>
+                      <span class="mx-2 text-center" style="min-width: 50px;"><%= item.quantity %></span>
+                      <form action="/cart/update" method="POST" class="d-inline">
+                        <input type="hidden" name="productId" value="<%= item.productId %>">
+                        <input type="hidden" name="action" value="increase">
+                        <button type="submit" class="btn btn-outline-secondary px-2 py-1" style="min-width: 32px;">+</button>
+                      </form>
+                    </div>
+                  </td>
+                  <td class="align-middle text-danger fw-bold">$<%= (item.price * item.quantity).toLocaleString() %></td>
+                  <td class="align-middle">
+                    <form action="/cart/remove" method="POST">
+                      <input type="hidden" name="productId" value="<%= item.productId %>">
+                      <button type="submit" class="btn btn-link text-muted p-0">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 手機版卡片 -->
+      <div class="d-md-none">
+        <div class="cart-items-mobile">
+          <% cart.items.forEach(item => { %>
+            <div class="border-bottom p-3" data-product-id="<%= item.productId %>">
+              <div class="d-flex">
+                <div class="form-check me-2 align-self-center">
+                  <input class="form-check-input item-checkbox" type="checkbox" name="selectedItems" 
+                         value="<%= item.productId %>" onchange="updateTotal()">
+                </div>
+                <div class="me-3" style="width: 100px; height: 100px;">
+                  <img src="<%= item.image %>" alt="<%= item.name %>" 
+                       class="rounded" style="width: 100%; height: 100%; object-fit: cover;"
+                       onerror="this.src='/img/no-image.jpg'">
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between mb-2">
+                    <div class="pe-2">
+                      <a href="/products/<%= item.productId %>" class="text-dark text-decoration-none"><%= item.name %></a>
+                    </div>
+                    <form action="/cart/remove" method="POST">
+                      <input type="hidden" name="productId" value="<%= item.productId %>">
+                      <button type="submit" class="btn btn-link text-muted p-0">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </form>
+                  </div>
+                  <div class="text-danger mb-2">$<%= item.price.toLocaleString() %></div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center quantity-control-mobile">
+                      <form action="/cart/update" method="POST" class="d-inline">
+                        <input type="hidden" name="productId" value="<%= item.productId %>">
+                        <input type="hidden" name="action" value="decrease">
+                        <button type="submit" class="btn btn-outline-secondary p-0" style="min-width: 28px; height: 28px;">-</button>
+                      </form>
+                      <span class="mx-1 text-center" style="min-width: 32px;"><%= item.quantity %></span>
+                      <form action="/cart/update" method="POST" class="d-inline">
+                        <input type="hidden" name="productId" value="<%= item.productId %>">
+                        <input type="hidden" name="action" value="increase">
+                        <button type="submit" class="btn btn-outline-secondary p-0" style="min-width: 28px; height: 28px;">+</button>
+                      </form>
+                    </div>
+                    <div class="text-danger fw-bold">$<%= (item.price * item.quantity).toLocaleString() %></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部結算區 -->
+    <div class="fixed-bottom bg-white border-top py-3">
+      <div class="container px-3">
+        <div class="row g-2">
+          <!-- 功能按鈕區 -->
+          <div class="col-12 col-md-6 d-flex gap-2 order-1 order-md-0">
+            <a href="/products" class="btn btn-outline-secondary flex-grow-1 flex-md-grow-0">
+              <i class="fas fa-arrow-left me-1"></i> 繼續購物
+            </a>
+            <a href="/cart/clear" class="btn btn-outline-danger flex-grow-1 flex-md-grow-0" onclick="return confirm('確定要清空購物車嗎？')">
+              <i class="fas fa-trash me-1"></i> 清空購物車
+            </a>
+          </div>
+
+          <!-- 結帳區域 -->
+          <div class="col-12 col-md-6 order-0 order-md-1">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-md-end">
+              <div class="d-flex justify-content-between align-items-center mb-2 mb-md-0 me-md-3">
+                <div class="d-flex flex-column flex-md-row align-items-md-center">
+                  <span class="text-muted me-md-2">已選擇 <span id="selectedCount">0</span> 件商品</span>
+                  <div>
+                    <span class="text-muted">總計:</span>
+                    <span class="h5 text-danger mb-0 ms-2" id="selectedTotal">$0</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="checkout()" class="btn btn-danger w-100 w-md-auto px-md-5" disabled id="checkoutBtn">
+                <i class="fas fa-credit-card me-1"></i> 結帳
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 為了防止底部固定區塊遮住內容，添加更多間距 -->
+    <div style="height: 480px;"></div>
+  <% } %>
+</div>
+
+<!-- 添加 JavaScript 函數 -->
+<script>
+function updateQuantity(productId, action) {
+  // 保存當前選中狀態
+  const isMobile = window.innerWidth < 768;
+  const visibleContainer = isMobile ? 
+    document.querySelector('.d-md-none') : 
+    document.querySelector('.d-none.d-md-block');
+  const checkboxes = visibleContainer.getElementsByClassName('item-checkbox');
+  const checkedItems = Array.from(checkboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+
+  fetch(`/cart/update/${productId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ action: action })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // 更新數量顯示
+      const quantityElements = document.querySelectorAll(`.quantity-${productId}`);
+      quantityElements.forEach(el => el.textContent = data.quantity);
+      
+      // 更新小計顯示
+      const row = document.querySelector(`[data-product-id="${productId}"]`);
+      if (row) {
+        const subtotalElement = row.querySelector('.text-danger.fw-bold');
+        if (subtotalElement) {
+          subtotalElement.textContent = `$${data.subtotal.toLocaleString()}`;
+        }
+      }
+
+      // 恢復選中狀態
+      if (data.checkedItems) {
+        const allCheckboxes = document.getElementsByClassName('item-checkbox');
+        Array.from(allCheckboxes).forEach(checkbox => {
+          checkbox.checked = data.checkedItems.includes(checkbox.value);
+        });
+      }
+
+      // 更新總計
+      updateTotal();
+    }
+  })
+  .catch(error => {
+    console.error('更新數量失敗:', error);
+    alert('更新數量失敗，請重試');
+  });
+}
+
+// 更新總計函數
+function updateTotal() {
+  // 獲取當前可見的容器中的 checkbox
+  const isMobile = window.innerWidth < 768;
+  const visibleContainer = isMobile ? 
+    document.querySelector('.d-md-none') : 
+    document.querySelector('.d-none.d-md-block');
+  const checkboxes = visibleContainer.getElementsByClassName('item-checkbox');
+  
+  const selectedItems = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const selectedCount = document.getElementById('selectedCount');
+  
+  // 更新選中商品數量
+  selectedCount.textContent = selectedItems.length;
+  
+  // 計算選中商品總價
+  let total = 0;
+  selectedItems.forEach(checkbox => {
+    const row = checkbox.closest('tr') || checkbox.closest('.border-bottom');
+    const subtotalElement = row.querySelector('.text-danger.fw-bold');
+    const subtotalText = subtotalElement.textContent;
+    const subtotal = parseFloat(subtotalText.replace('$', '').replace(/,/g, ''));
+    total += subtotal;
+  });
+  
+  // 更新總價顯示
+  document.getElementById('selectedTotal').textContent = '$' + total.toLocaleString();
+  
+  // 更新結帳按鈕狀態
+  checkoutBtn.disabled = selectedItems.length === 0;
+}
+
+function checkout() {
+  // 獲取當前可見的容器中的已選中商品
+  const isMobile = window.innerWidth < 768;
+  const visibleContainer = isMobile ? 
+    document.querySelector('.d-md-none') : 
+    document.querySelector('.d-none.d-md-block');
+  const selectedItems = Array.from(visibleContainer.getElementsByClassName('item-checkbox'))
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+    
+  if (selectedItems.length === 0) {
+    alert('請選擇要購買的商品');
+    return;
+  }
+  
+  // 將選中的商品ID和總價傳遞到結帳頁面
+  const selectedTotal = document.getElementById('selectedTotal').textContent;
+  window.location.href = `/checkout?items=${selectedItems.join(',')}&total=${selectedTotal.replace('$', '').replace(/,/g, '')}`;
+}
+
+// 頁面加載完成後初始化
+document.addEventListener('DOMContentLoaded', function() {
+  // 為每個商品的 checkbox 添加 change 事件監聽器
+  const allCheckboxes = document.getElementsByClassName('item-checkbox');
+  Array.from(allCheckboxes).forEach(checkbox => {
+    checkbox.addEventListener('change', updateTotal);
+  });
+  
+  // 添加視窗大小改變事件監聽器
+  window.addEventListener('resize', updateTotal);
+  
+  // 初始化總計
+  updateTotal();
+});
+</script>
+
+<%- include('../partials/footer') %> 

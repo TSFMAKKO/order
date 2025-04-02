@@ -1,0 +1,429 @@
+/* 基本樣式 */
+:root {
+  --primary-color: #4a88e5;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --body-bg: #f8f9fa;
+  --card-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+body {
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--body-bg);
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* 導航欄樣式 */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.navbar-brand {
+  font-weight: 700;
+}
+
+/* 卡片樣式 */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px 0px, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+}
+
+.card-header {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.75rem 1.25rem;
+}
+
+.card-footer {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 0.75rem 1.25rem;
+}
+
+/* 產品列表頁樣式 */
+.product-image-container {
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.img-error-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f9fa;
+  color: #adb5bd;
+  font-size: 3rem;
+}
+
+.img-error-placeholder-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f9fa;
+  color: #adb5bd;
+  font-size: 1.5rem;
+}
+
+/* 產品價格標籤 */
+.price-tag {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 15px;
+  display: inline-block;
+}
+
+.price-tag-large {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* 購物車頁面樣式 */
+.cart-page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cart-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.cart-item-image-container {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-name {
+  color: var(--dark-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cart-item-name:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+}
+
+/* 結帳頁面樣式 */
+.checkout-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.checkout-card {
+  margin-bottom: 1.5rem;
+}
+
+.checkout-item {
+  padding: 1rem;
+}
+
+.checkout-item-image-container {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkout-total {
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.checkout-btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+/* 產品詳情頁樣式 */
+.detail-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+.detail-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 動畫效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .product-image-container {
+    height: 180px;
+  }
+  
+  .detail-image-container {
+    height: 300px;
+  }
+  
+  .cart-item-image-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .checkout-item-image-container {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* 頁腳樣式 */
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+footer a:hover {
+  color: white;
+}
+
+/* 按鈕樣式 */
+.btn {
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #3872c5;
+  border-color: #3872c5;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+  background-color: transparent;
+  padding: 1rem 0;
+}
+
+.breadcrumb-item a {
+  color: #4285f4;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #777;
+  font-weight: 500;
+}
+
+/* 徽章标签 */
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 结账流程指示器 */
+.checkout-steps {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.checkout-step {
+  flex: 1;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkout-step.active {
+  background-color: #4285f4;
+  color: white;
+  box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+  transform: translateY(-5px);
+}
+
+.checkout-step.completed {
+  background-color: #34a853;
+  color: white;
+  box-shadow: 0 4px 8px rgba(52, 168, 83, 0.3);
+}
+
+.checkout-step:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  width: 2rem;
+  height: 2px;
+  background-color: #ddd;
+  transform: translateY(-50%);
+}
+
+.checkout-step:last-child:after {
+  display: none;
+}
+
+/* 表单样式 */
+.form-control {
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 0 0.2rem rgba(66, 133, 244, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #555;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 导航栏样式 */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #4285f4, #34a853);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: white !important;
+}
+
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.7rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  color: white !important;
+  transform: translateY(-2px);
+} 

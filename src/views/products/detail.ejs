@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+
+<div class="container fade-in">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">首頁</a></li>
+      <li class="breadcrumb-item"><a href="/products">商品列表</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
+    </ol>
+  </nav>
+
+  <%- include('../partials/message') %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="detail-image-container">
+        <img src="<%= product.image %>" class="detail-image" alt="<%= product.name %>" 
+             onerror="this.src='/img/no-image.jpg'">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1 class="mb-3"><%= product.name %></h1>
+      
+      <div class="mb-4">
+        <span class="price-tag-large">$<%= product.price.toLocaleString() %></span>
+        <% if (product.category) { %>
+          <span class="badge bg-secondary ms-2"><%= product.category === 'electronics' ? '電子產品' : (product.category === 'fashion' ? '時尚服飾' : product.category) %></span>
+        <% } %>
+      </div>
+      
+      <div class="mb-4">
+        <p><%= product.description %></p>
+      </div>
+      
+      <form action="/cart/add" method="POST" class="mb-4">
+        <input type="hidden" name="productId" value="<%= product.id %>">
+        <input type="hidden" name="name" value="<%= product.name %>">
+        <input type="hidden" name="price" value="<%= product.price %>">
+        <input type="hidden" name="image" value="<%= product.image %>">
+        
+        <div class="row g-3 align-items-center mb-4">
+          <div class="col-auto">
+            <label for="quantity" class="col-form-label">數量：</label>
+          </div>
+          <div class="col-auto">
+            <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="99">
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-lg">
+          <i class="fas fa-cart-plus me-1"></i> 加入購物車
+        </button>
+        <a href="/products" class="btn btn-outline-secondary btn-lg ms-2">
+          <i class="fas fa-arrow-left me-1"></i> 返回列表
+        </a>
+      </form>
+      
+      <div class="alert alert-info">
+        <i class="fas fa-truck me-2"></i> 付款後 3-5 個工作日內寄出
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if (relatedProducts && relatedProducts.length > 0) { %>
+<div class="row mt-5">
+  <div class="col-12">
+    <h3 class="mb-4">相關商品</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% relatedProducts.forEach(relProduct => { %>
+        <div class="col">
+          <div class="card h-100">
+            <div class="product-image-container">
+              <img src="<%= relProduct.image %>" class="card-img-top product-image" alt="<%= relProduct.name %>" 
+                   onerror="this.src='/img/no-image.jpg'">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= relProduct.name %></h5>
+              <p class="card-text text-truncate"><%= relProduct.description %></p>
+              <div class="price-tag mb-3">$<%= relProduct.price.toLocaleString() %></div>
+              <a href="/products/<%= relProduct.id %>" class="btn btn-outline-primary">
+                <i class="fas fa-eye me-1"></i> 查看詳情
+              </a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<%- include('../partials/footer') %> 

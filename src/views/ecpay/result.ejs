@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    :root {
+      /* 系統顏色 - 淺色模式 */
+      --system-blue: #007AFF;
+      --system-green: #34C759;
+      --system-red: #FF3B30;
+      --system-gray: #8E8E93;
+      --system-gray2: #AEAEB2;
+      --system-gray5: #E5E5EA;
+      --system-gray6: #F2F2F7;
+      
+      /* 背景色 */
+      --background-primary: #FFFFFF;
+      --background-secondary: #F5F5F7;
+      --background-elevated: #FFFFFF;
+      
+      /* 文字顏色 */
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --text-tertiary: #6E6E73;
+      
+      /* 邊框和分隔線 */
+      --separator-color: #D2D2D7;
+      --border-color: rgba(0, 0, 0, 0.1);
+      
+      /* 特殊效果 */
+      --backdrop-blur: saturate(180%) blur(20px);
+    }
+
+    body {
+      font-family: "SF Pro TC","SF Pro Text","SF Pro Icons","PingFang TC","Helvetica Neue","Helvetica","Arial",sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--background-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .nav-wrapper {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: var(--backdrop-blur);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      border-bottom: 1px solid var(--separator-color);
+      z-index: 9999;
+    }
+
+    .main-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 80px 20px 40px;
+    }
+
+    .result-wrapper {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .status-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .success .status-icon {
+      color: var(--system-green);
+    }
+
+    .error .status-icon {
+      color: var(--system-red);
+    }
+
+    .status-title {
+      font-size: 40px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .status-subtitle {
+      font-size: 21px;
+      line-height: 1.381;
+      font-weight: 400;
+      letter-spacing: .011em;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+
+    .order-section {
+      background: var(--background-secondary);
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 30px;
+      text-align: left;
+      box-shadow: 0 2px 4px var(--border-color);
+    }
+
+    .section-title {
+      font-size: 24px;
+      line-height: 1.1667;
+      font-weight: 600;
+      letter-spacing: .009em;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--separator-color);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-size: 17px;
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: -.022em;
+      color: var(--text-tertiary);
+    }
+
+    .detail-value {
+      font-size: 17px;
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: -.022em;
+      color: var(--text-primary);
+    }
+
+    .button-container {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .button {
+      background: var(--system-blue);
+      color: #FFFFFF;
+      font-size: 17px;
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: -.022em;
+      min-width: 180px;
+      padding: 12px 22px;
+      border-radius: 980px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0071E3;
+      transform: translateY(-1px);
+    }
+
+    .error-message {
+      background: rgba(255, 59, 48, 0.1);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 30px;
+      color: var(--system-red);
+      font-size: 17px;
+      line-height: 1.47059;
+      border: 1px solid rgba(255, 59, 48, 0.2);
+    }
+
+    @media only screen and (max-width: 734px) {
+      .main-container {
+        padding: 65px 20px 30px;
+      }
+
+      .status-title {
+        font-size: 32px;
+      }
+
+      .status-subtitle {
+        font-size: 19px;
+      }
+
+      .section-title {
+        font-size: 21px;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .order-section {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-primary: #000000;
+        --background-secondary: #1C1C1E;
+        --text-primary: #FFFFFF;
+        --text-secondary: #98989D;
+        --text-tertiary: #98989D;
+        --separator-color: #38383A;
+        --border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-wrapper {
+        background: rgba(0, 0, 0, 0.72);
+      }
+
+      .button:hover {
+        background-color: #0A84FF;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrapper"></div>
+  <div class="main-container">
+    <div class="result-wrapper <%= order && order.status === '支付成功' ? 'success' : 'error' %>">
+      <div class="status-icon">
+        <%= order && order.status === '支付成功' ? '✓' : '✗' %>
+      </div>
+      <h1 class="status-title"><%= order ? order.status : '處理中' %></h1>
+      <p class="status-subtitle">
+        <%= order && order.status === '支付成功' ? '感謝您的購買' : '請檢查以下訂單資訊' %>
+      </p>
+
+      <% if (error) { %>
+        <div class="error-message">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <% if (order) { %>
+        <div class="order-section">
+          <h2 class="section-title">訂單資訊</h2>
+          <div class="detail-row">
+            <span class="detail-label">訂單編號</span>
+            <span class="detail-value"><%= order.id %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">訂單金額</span>
+            <span class="detail-value">NT$ <%= order && order.total ? order.total.toLocaleString() : '0' %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">訂單狀態</span>
+            <span class="detail-value"><%= order.status %></span>
+          </div>
+          <% if (order.message) { %>
+            <div class="detail-row">
+              <span class="detail-label">狀態說明</span>
+              <span class="detail-value"><%= order.message %></span>
+            </div>
+          <% } %>
+        </div>
+
+        <% if (paymentInfo && order.status === '支付成功') { %>
+          <div class="order-section">
+            <h2 class="section-title">付款資訊</h2>
+            <div class="detail-row">
+              <span class="detail-label">付款方式</span>
+              <span class="detail-value"><%= paymentInfo.paymentType %></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">付款時間</span>
+              <span class="detail-value"><%= paymentInfo.paymentDate %></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">交易編號</span>
+              <span class="detail-value"><%= paymentInfo.tradeNo %></span>
+            </div>
+          </div>
+        <% } else if (order.status !== '支付成功') { %>
+          <div class="order-section">
+            <h2 class="section-title">付款狀態</h2>
+            <div class="detail-row">
+              <span class="detail-label">失敗原因</span>
+              <span class="detail-value"><%= order.message || '交易未完成' %></span>
+            </div>
+            <% if (paymentInfo && paymentInfo.paymentType) { %>
+              <div class="detail-row">
+                <span class="detail-label">嘗試付款方式</span>
+                <span class="detail-value"><%= paymentInfo.paymentType %></span>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      <% } %>
+
+      <div class="button-container">
+        <% if (order && order.status === '支付成功') { %>
+          <a href="/" class="button">繼續購物</a>
+        <% } else { %>
+          <a href="/cart" class="button">返回購物車</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

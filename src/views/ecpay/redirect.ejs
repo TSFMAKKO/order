@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - ECPay 購物網站</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .redirect-container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+    
+    .redirect-title {
+      color: #4CAF50;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .redirect-message {
+      margin-bottom: 30px;
+      color: #555;
+      font-size: 1rem;
+    }
+    
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .spinner-border {
+      width: 50px;
+      height: 50px;
+      color: #4CAF50;
+    }
+    
+    .btn-redirect {
+      background-color: #4CAF50;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+    
+    .btn-redirect:hover {
+      background-color: #43a047;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(76, 175, 80, 0.4);
+    }
+    
+    .secure-text {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .secure-text i {
+      margin-right: 5px;
+      color: #4CAF50;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* 半透明遮罩效果 */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.7);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- 跳轉容器 -->
+  <div class="redirect-container">
+    <h2 class="redirect-title">準備前往綠界支付</h2>
+    <p class="redirect-message">請不要關閉此頁面，正在為您準備支付介面...</p>
+    
+    <div class="spinner-container">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">載入中...</span>
+      </div>
+    </div>
+    
+    <!-- 綠界支付表單 - 會被自動提交 -->
+    <form id="ecpayForm" action="<%= action %>" method="post">
+      <% for (const key in data) { %>
+        <input type="hidden" name="<%= key %>" value="<%= data[key] %>">
+      <% } %>
+      <button type="submit" class="btn btn-primary btn-redirect">
+        <i class="fas fa-lock me-2"></i>前往支付頁面
+      </button>
+    </form>
+    
+    <div class="secure-text">
+      <i class="fas fa-shield-alt"></i> 本次交易由綠界支付提供安全支付服務
+    </div>
+  </div>
+
+  <script>
+    // 頁面載入後自動提交表單
+    document.addEventListener('DOMContentLoaded', function() {
+      // 顯示加載動畫 2 秒後提交表單
+      setTimeout(function() {
+        document.getElementById('ecpayForm').submit();
+      }, 2000);
+    });
+  </script>
+</body>
+</html> 

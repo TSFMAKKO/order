@@ -1,0 +1,85 @@
+<%- include('../partials/message') %>
+
+<h1 class="mb-4">选择支付方式</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">支付方式</h5>
+      </div>
+      <div class="card-body">
+        <form action="/checkout/payment" method="POST">
+          <div class="list-group mb-4">
+            <label class="list-group-item">
+              <div class="d-flex align-items-center">
+                <input class="form-check-input me-3" type="radio" name="paymentMethod" value="ecpay" checked>
+                <div>
+                  <h6 class="mb-0">绿界支付 (ECPay)</h6>
+                  <small class="text-muted">支持信用卡、ATM、超商代码等付款方式</small>
+                </div>
+                <div class="ms-auto">
+                  <img src="/img/ecpay-logo.png" alt="ECPay" style="height: 30px;" onerror="this.src='https://www.ecpay.com.tw/Content/themes/EcpayPayment_W/images/ecpay_logo.svg'; this.onerror=null;">
+                </div>
+              </div>
+            </label>
+            
+            <label class="list-group-item">
+              <div class="d-flex align-items-center">
+                <input class="form-check-input me-3" type="radio" name="paymentMethod" value="cod">
+                <div>
+                  <h6 class="mb-0">货到付款</h6>
+                  <small class="text-muted">收到商品时以现金付款</small>
+                </div>
+              </div>
+            </label>
+          </div>
+          
+          <div class="d-flex justify-content-between">
+            <a href="/checkout" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-2"></i>返回填写订单信息
+            </a>
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-check me-2"></i>确认下单
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">订单摘要</h5>
+      </div>
+      <div class="card-body">
+        <div class="list-group mb-3">
+          <div class="list-group-item">
+            <h6 class="mb-0">收货信息</h6>
+            <p class="mb-0 text-muted"><%= customerInfo.name %></p>
+            <p class="mb-0 text-muted"><%= customerInfo.phone %></p>
+            <p class="mb-0 text-muted"><%= customerInfo.address %>, <%= customerInfo.city %>, <%= customerInfo.postalCode %></p>
+          </div>
+          
+          <div class="list-group-item">
+            <h6 class="mb-2">订单商品</h6>
+            <% cart.forEach(item => { %>
+              <div class="d-flex justify-content-between mb-2">
+                <div>
+                  <small><%= item.name %> × <%= item.quantity %></small>
+                </div>
+                <small>$<%= (item.price * item.quantity).toLocaleString() %></small>
+              </div>
+            <% }) %>
+          </div>
+          
+          <div class="list-group-item d-flex justify-content-between">
+            <strong>总计</strong>
+            <strong>$<%= totalAmount.toLocaleString() %></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
